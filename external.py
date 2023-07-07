@@ -36,7 +36,7 @@ class External():
             sys.exit(2)
 
         if action == External.open:
-            os.system("python3 " + dir + "/setup.py")
+            os.system(sys.executable + " " + dir + "/setup.py")
 
 
 External(argv=argv).do()

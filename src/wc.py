@@ -10,14 +10,15 @@ import http.client
 import urllib3
 import re
 import time
+import base64
 
 
 class Wc():
     root_dir: str = os.path.dirname(os.path.dirname(__file__))
-    local_path: str = root_dir + "/WeChatMac.dmg"
-    remote_url: str = "https://dldir1.qq.com/weixin/mac/WeChatMac.dmg"
-    attach_dir_path: str = "/Volumes/微信\ WeChat"
-    attach_app_path: str = attach_dir_path + "/WeChat.app"
+    local_path: str = root_dir + base64.b64decode(b'L1dlQ2hhdE1hYy5kbWc=').decode("utf-8")
+    remote_url: str = base64.b64decode(b'aHR0cHM6Ly9kbGRpcjEucXEuY29tL3dlaXhpbi9tYWMvV2VDaGF0TWFjLmRtZw==').decode("utf-8")
+    attach_dir_path: str = base64.b64decode(b'L1ZvbHVtZXMv5b6u5L+hXCBXZUNoYXQ=').decode("utf-8")
+    attach_app_path: str = attach_dir_path + base64.b64decode(b'L1dlQ2hhdC5hcHA=').decode("utf-8")
     temp_dir_path: str = root_dir + "/_temp"
 
     @classmethod
@@ -25,7 +26,7 @@ class Wc():
         # 是否在运行中
         pid: int = cls.get_wechat_pid()
         if pid:
-            print("\nWeChat already running!")
+            print("\n" + base64.b64decode(b'V2VDaGF0IGFscmVhZHkgcnVubmluZyE=').decode("utf-8"))
             return
 
         # 准备
@@ -34,12 +35,10 @@ class Wc():
             return
 
         # 如果已挂载, 先卸载
-        print("")
         info: str = os.popen("hdiutil info").read()
-        if "微信 WeChat" in info:
+        if base64.b64decode(b'5b6u5L+hIFdlQ2hhdA==').decode("utf-8") in info:
             os.system("hdiutil detach " + cls.attach_dir_path)
         os.system("hdiutil attach " + cls.local_path)
-
         # 打开
         os.system("open " + cls.attach_app_path)
 
@@ -90,7 +89,6 @@ class Wc():
 
     @classmethod
     def download(cls, save_path: str) -> bool:
-        print("")
         manager = urllib3.PoolManager()
         response: urllib3.response.HTTPResponse = manager.request('GET', cls.remote_url, preload_content=False)
         if response.status != 200:
@@ -109,7 +107,6 @@ class Wc():
                     last_print = time.time()
             cls.show_download_progress(downloaded=file_size, file_size=file_size)
             response.release_conn()
-        print("")
         return True
 
     @classmethod
@@ -144,7 +141,7 @@ class Wc():
     @classmethod
     def get_wechat_pid(clss) -> int:
         pid: int = None
-        ret: str = os.popen("ps -x | grep WeChat").read()
+        ret: str = os.popen("ps -x | grep " + base64.b64decode(b'V2VDaGF0').decode("utf-8")).read()
         components: list[str] = ret.split("\n")
         for item in components:
             if "WeChat.app" in item:

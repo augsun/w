@@ -11,4 +11,5 @@ class Setup():
         Wc.do()
 
 
-Setup.setup()
+if __name__ == '__main__':
+    Setup.setup()
