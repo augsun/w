@@ -1,3 +1,4 @@
 _temp
 *.dmg
 __pycache__/
+.vscode
